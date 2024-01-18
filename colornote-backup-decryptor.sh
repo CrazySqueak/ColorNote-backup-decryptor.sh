@@ -42,13 +42,13 @@ then
     
     # Guess classpath separator
     guess_classpath_sep(){
-        echo "Testing Unix classpath..."
+        echo "Testing Unix-style classpath..."
         JAVA_CMD="java -cp lib/bcprov-jdk15on-154.jar:lib/bcpkix-jdk15on-154.jar:bin ColorNoteBackupDecrypt"
         JAVA_ERR=$($JAVA_CMD < /dev/null 2>&1 >/dev/null)
         echo "$JAVA_ERR" | grep -Fq "java.lang.ClassNotFoundException"
         [[ $? -ne 0 ]] && return 0;
         
-        echo "Testing Windows classpath..."
+        echo "Testing Windows-style classpath..."
         JAVA_CMD="java -cp lib/bcprov-jdk15on-154.jar;lib/bcpkix-jdk15on-154.jar;bin ColorNoteBackupDecrypt"
         JAVA_ERR=$($JAVA_CMD < /dev/null 2>&1 >/dev/null)
         echo "$JAVA_ERR" | grep -Fq "java.lang.ClassNotFoundException"
