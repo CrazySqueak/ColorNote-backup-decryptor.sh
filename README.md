@@ -4,6 +4,9 @@ This script can decrypt and extract a ColorNote backup.
 # Installation/User Guide
 If you want to use the ColorNote Backup Decryptor to decrypt a ColorNote backup, please follow these steps.
 
+## 1. Getting the Backup from ColorNote
+ - todo
+
 ## 2. Install Dependencies
 
 ### On Linux
@@ -30,7 +33,7 @@ $ bash colornote-backup-decryptor.sh
 ```
 
 This script will automatically download olejorgenb's ColorNote backup decryptor, perform a few checks, and run the commands for you as needed. The output should look something like this (some lines may be different depending on your Java version and Operating System):
- - todo
+![img1](https://github.com/CrazySqueak/ColorNote-backup-decryptor.sh/assets/49409835/2ed1864e-0f8a-49bc-8c77-7d7a97064def)
 
 After the download is completed and the checks have been run, you should be greeted with a prompt that looks like this:
 ```
@@ -52,8 +55,8 @@ If you did not set a master password in ColorNote, enter "0000".
 If you did set a master password in ColorNote, enter the password here. It is required in order to decrypt your notes.  
 Then, press ENTER.
 
-The script will then begin trying different encryption methods to decrypt the backup. Don't worry if you see any errors as long as the script keeps running - ColorNote has a couple different methods for encrypting backups and trial-and-error is required to figure out which one was used. You'll see something that looks like this.
- - todo
+The script will then begin trying different encryption methods to decrypt the backup. Don't worry if you see any errors as long as the script keeps running - ColorNote has a couple different formats for encrypting backup,s and trial-and-error is used to figure out which format the backup is in. You'll see something that looks like this:
+![img2](https://github.com/CrazySqueak/ColorNote-backup-decryptor.sh/assets/49409835/7d273544-cff8-4647-a3a8-f471100544f1)
  
 Once the decryption has completed, you should see these two lines:
 ```
@@ -61,3 +64,6 @@ Success.
 Your ColorNote backup has been successfully decrypted and exported!
 ```
 These lines signify that your backup has been successfully decrypted.
+
+## 4. Viewing your decrypted backup
+ - todo
