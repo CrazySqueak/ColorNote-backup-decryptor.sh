@@ -4,8 +4,31 @@ This script can decrypt and extract a ColorNote backup.
 # Installation/User Guide
 If you want to use the ColorNote Backup Decryptor to decrypt a ColorNote backup, please follow these steps.
 
+### Prerequisites
+To use this, you will need an Android phone with the ColorNote app, and a PC or Laptop running Windows or Linux (Macs may work if you know how, but are untested).
+
+If you have any locked notes (notes that require your master password in order to read them), then you will need to unlock them first (long-press the note, select "more", select "Unlock"). Locked notes have a second layer of encryption that this wrapper does not decrypt, and so the easiest way to export any locked notes is just to unlock them before taking the backup, and re-lock them afterwards.
+
 ## 1. Getting the Backup from ColorNote
- - todo
+In ColorNote, go to the "More" menu by tapping the three lines at the bottom:  
+![img3](https://github.com/CrazySqueak/ColorNote-backup-decryptor.sh/assets/49409835/9a4c80fe-07bc-455d-8231-fb2a8d87dd0b)
+
+Then, select "Settings" and scroll down to "Backup". Select the "Backup" option.  
+![img4](https://github.com/CrazySqueak/ColorNote-backup-decryptor.sh/assets/49409835/ac88dfca-434a-4495-9d58-b15bd9149160)
+
+Tap "BACKUP NOTES", and enter your master password if asked.
+Tap the new backup that appears, then select "Send".  
+![img5](https://github.com/CrazySqueak/ColorNote-backup-decryptor.sh/assets/49409835/d59989a4-017f-4f5d-9074-f311066e0cd4)
+
+Select an option that allows you to upload the file, and then download it on your computer. 
+For this example I'll use Google Drive, but anything of that sort works.
+Then, upload the file, and wait for the upload to complete.  
+![img6](https://github.com/CrazySqueak/ColorNote-backup-decryptor.sh/assets/49409835/890954f6-083c-41cd-acbf-cc5ea5fc8f13)
+
+Once you're on your computer, download the file from wherever you upoaded it (e.g. If you're using Google Drive, you'd download it from [drive.google.com](drive.google.com)). Save it somewhere where you'll remember it.   
+![img7](https://github.com/CrazySqueak/ColorNote-backup-decryptor.sh/assets/49409835/2c3cc474-0c94-4f81-8ef4-54cd015c47bc)
+
+Now that you've downloaded your backup, you're ready to install and use this program in order to decrypt it. Go to step 2.
 
 ## 2. Install Dependencies
 
