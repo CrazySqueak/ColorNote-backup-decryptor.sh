@@ -10,7 +10,7 @@ then
     [ $? -eq 0 ] && echo "Update successful." || echo "Update failed. Continuing anyways..."
 else
     echo "Downloading colornote backup decryptor..."
-    git clone https://github.com/olejorgenb/ColorNote-backup-decryptor.git "$CBD_DIR"
+    git clone https://github.com/CrazySqueak/ColorNote-backup-decryptor.git "$CBD_DIR"  # pulling from my own fork ATM due to a bug in one of the cleanup scripts
     echo "Done."
 fi
 
