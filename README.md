@@ -33,7 +33,7 @@ Now that you've downloaded your backup, you're ready to install and use this pro
 ## 2. Install Dependencies
 
 ### On Linux
-If on linux, you will need to install the following dependencies. The majority of these should come pre-installed. The command below is for the apt package manager (Debian/Ubuntu). If you use a different package manager, please adjust the command to use the correct one.
+If on linux, you will need to install the following dependencies. The majority of these should come pre-installed. The command below is for the apt package manager (Debian/Ubuntu/Mint). If you use a different package manager, you'll have to research the equivalent package names yourself.
 ```
 $ sudo apt update && sudo apt install default-jre python3 perl sed bash git grep
 ```
@@ -42,7 +42,7 @@ $ sudo apt update && sudo apt install default-jre python3 perl sed bash git grep
 If on Windows, installation is a bit more difficult. There is currently no windows-friendly version of the script, however you can run the Linux version on Windows using [Git Bash](https://git-scm.com/download/win).
 
 1. Download Git Bash / Git for Windows from [this link](https://git-scm.com/download/win). Download and run the relevant installer and leave the settings set to the defaults.
-2. If you want the output file to be prettified (human-readable), download a copy of Python 3 from [this link](https://www.python.org/downloads/windows/) and run the installer. Leave the installer settings set to the defaults **EXCEPT** for "Add Python 3 to PATH", a checkbox which must be selected if it isn't already. If you don't care, skip this step.
+2. Download a copy of Python 3 from [this link](https://www.python.org/downloads/windows/) and download the "python install manager". Select the MSIX download and install it. Alternatively, download an older version of Python (3.8 or later) and use the MSI installer, making sure to check "Add Python 3 to PATH".
 3. If you do not have java, or aren't sure if you do, download a copy of Java from [this link](https://learn.microsoft.com/en-us/java/openjdk/download#openjdk-17), selecting the "Windows x64 msi" option from the list. Run the installer and leave the settings set to the defaults.
 
 
@@ -56,7 +56,7 @@ $ bash colornote-backup-decryptor.sh
 ```
 
 This script will automatically download olejorgenb's ColorNote backup decryptor, perform a few checks, and run the commands for you as needed. The output should look something like this (some lines may be different depending on your Java version and Operating System):
-![img1](https://github.com/CrazySqueak/ColorNote-backup-decryptor.sh/assets/49409835/2ed1864e-0f8a-49bc-8c77-7d7a97064def)
+![img1](https://github.com/user-attachments/assets/0307b5b8-ccbe-4545-9d5a-5732f2ec54ff)
 
 After the download is completed and the checks have been run, you should be greeted with a prompt that looks like this:
 ```
@@ -79,7 +79,7 @@ If you did set a master password in ColorNote, enter the password here. It is re
 Then, press ENTER.
 
 The script will then begin trying different encryption methods to decrypt the backup. Don't worry if you see any errors as long as the script keeps running - ColorNote has a couple different formats for encrypting backup,s and trial-and-error is used to figure out which format the backup is in. You'll see something that looks like this:
-![img2](https://github.com/CrazySqueak/ColorNote-backup-decryptor.sh/assets/49409835/7d273544-cff8-4647-a3a8-f471100544f1)
+![img2](https://github.com/user-attachments/assets/64e2b23f-0b9b-4a6d-86c9-18b59d7d71d3)
  
 Once the decryption has completed, you should see these two lines:
 ```

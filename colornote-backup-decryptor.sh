@@ -63,14 +63,42 @@ then
     echo "Determined classpath separator successfully."
 fi
 
+echo "Finding python executable..."
+PYTHON_CMD=""
+guess_python_version() {
+    echo "Testing Python 3 (as python3)..."
+    PYTHON_CMD="python3"
+    $PYTHON_CMD -c "import sys; sys.exit(0)" >/dev/null 2>/dev/null
+    [[ $? -eq 0 ]] && return 0;
+    
+    echo "Testing Python 3 (Windows)..."
+    PYTHON_CMD="py"
+    $PYTHON_CMD -c "import sys; sys.exit(0)" >/dev/null 2>/dev/null
+    [[ $? -eq 0 ]] && return 0;
+    
+    echo "Testing Python 3 (as python)..."
+    PYTHON_CMD="python"
+    $PYTHON_CMD -c "import sys; sys.exit(0)" >/dev/null 2>/dev/null
+    [[ $? -eq 0 ]] && return 0;
+    
+    echo "Error: No python found on PATH."
+    echo "Please ensure Python is installed, and available on your PATH environment variable."
+    return 1
+}
+guess_python_version || exit 1;
+echo "Determined python executable successfully."
+
 cd "$WK_DIR"
 
 read -p "Enter path to backup (input) file (.backup, .dat, .doc): " BACKUP_FILE
 read -p "Enter path to output to (.json): " OUTPUT_PATH
 read -p "Enter ColorNote master password (0000 is the colornote default): " PASSWORD
 
-BACKUP_FILE=$(realpath "$BACKUP_FILE")
-OUTPUT_PATH=$(realpath "$OUTPUT_PATH")
+getrealpath() {
+    $PYTHON_CMD -c "import sys, os; print(os.path.abspath(os.path.expanduser(sys.argv[1])))" "$1"
+}
+BACKUP_FILE="$(getrealpath "$BACKUP_FILE")"
+OUTPUT_PATH="$(getrealpath "$OUTPUT_PATH")"
 TEMP_PATH="$OUTPUT_PATH.tmp"
 
 cd "$CBD_DIR"
@@ -95,40 +123,25 @@ echo "Cleaning up decrypted file..."
 
 cleanup_v3(){
     # Check for presence of python3
-    python3 -c "import sys; sys.exit(0)" >/dev/null 2>/dev/null
-    if [[ $? -ne 0 ]]
-    then
-        # Check for windows python (which is `py` instead of `python3` for some godforsaken reason)
-        py -c "import sys; sys.exit(0)" >/dev/null 2>/dev/null
-        if [[ $? -ne 0 ]]
-        then
-            echo "WARN: Python 3 is not installed. The resulting json will not be prettified."
-            echo "Modifying cleanup script to reflect environment..."
-            cat "$CBD_DIR/fixup-v3" | sed 's/[|] python3.*>/>/g' > "$WK_DIR/fixup-v3-fixed"
-            FIX_V3="$WK_DIR/fixup-v3-fixed"
-        else
-            echo "Detected python installation on Windows."
-            echo "Modifying cleanup script to reflect environment..."
-            cat "$CBD_DIR/fixup-v3" | sed 's/python3/py/g' > "$WK_DIR/fixup-v3-fixed"
-            FIX_V3="$WK_DIR/fixup-v3-fixed"
-        fi
-    else
-        FIX_V3="$CBD_DIR/fixup-v3"
-    fi
+    echo "Patching cleanup script..."
+    export PYTHON_CMD # let bash handle the substitution rather than cause issues
+    cat "$CBD_DIR/fixup-v3" | sed 's/python3/$PYTHON_CMD/g' > "$WK_DIR/fixup-v3-fixed"
+    FIX_V3="$WK_DIR/fixup-v3-fixed"
+    
     echo "Attempting cleanup script V3..."
-    $FIX_V3 "$TEMP_PATH" "$OUTPUT_PATH" || { echo "Failed."; return 1; }
+    bash $FIX_V3 "$TEMP_PATH" "$OUTPUT_PATH" || { echo "Failed."; return 1; }
     echo "Success."
     return 0;
 }
 cleanup_v2(){
     echo "Attempting cleanup script V2..."
-    "$CBD_DIR/fixup-v2" < "$TEMP_PATH" > "$OUTPUT_PATH" || { echo "Failed."; return 1; }
+    bash "$CBD_DIR/fixup-v2" < "$TEMP_PATH" > "$OUTPUT_PATH" || { echo "Failed."; return 1; }
     echo "Success."
     return 0;
 }
 cleanup_v1(){
     echo "Attempting cleanup script V1..."
-    "$CBD_DIR/fixup-v1" < "$TEMP_PATH" > "$OUTPUT_PATH" || { echo "Failed."; return 1; }
+    bash "$CBD_DIR/fixup-v1" < "$TEMP_PATH" > "$OUTPUT_PATH" || { echo "Failed."; return 1; }
     echo "Success."
     return 0;
 }
