@@ -9,6 +9,7 @@ To use this, you will need an Android phone with the ColorNote app, and a PC or 
 
 If you have any locked notes (notes that require your master password in order to read them), then you will need to unlock them first (long-press the note, select "more", select "Unlock"). Locked notes have a second layer of encryption that this wrapper does not decrypt, and so the easiest way to export any locked notes is just to unlock them before taking the backup, and re-lock them afterwards.
 
+
 ## 1. Getting the Backup from ColorNote
 In ColorNote, go to the "More" menu by tapping the three lines at the bottom:  
 ![img3](https://github.com/CrazySqueak/ColorNote-backup-decryptor.sh/assets/49409835/9a4c80fe-07bc-455d-8231-fb2a8d87dd0b)
@@ -25,7 +26,7 @@ For this example I'll use Google Drive, but anything of that sort works.
 Then, upload the file, and wait for the upload to complete.  
 ![img6](https://github.com/CrazySqueak/ColorNote-backup-decryptor.sh/assets/49409835/890954f6-083c-41cd-acbf-cc5ea5fc8f13)
 
-Once you're on your computer, download the file from wherever you upoaded it (e.g. If you're using Google Drive, you'd download it from [drive.google.com](drive.google.com)). Save it somewhere where you'll remember it.   
+Once you're on your computer, download the file from wherever you uploaded it (e.g. If you're using Google Drive, you'd download it from [drive.google.com](drive.google.com)). Save it somewhere where you'll remember it.   
 ![img7](https://github.com/CrazySqueak/ColorNote-backup-decryptor.sh/assets/49409835/2c3cc474-0c94-4f81-8ef4-54cd015c47bc)
 
 Now that you've downloaded your backup, you're ready to install and use this program in order to decrypt it. Go to step 2.
@@ -43,7 +44,10 @@ If on Windows, installation is a bit more difficult. There is currently no windo
 
 1. Download Git Bash / Git for Windows from [this link](https://git-scm.com/download/win). Download and run the relevant installer and leave the settings set to the defaults.
 2. Download a copy of Python 3 from [this link](https://www.python.org/downloads/windows/) and download the "python install manager". Select the MSIX download and install it. Alternatively, download an older version of Python (3.8 or later) and use the MSI installer, making sure to check "Add Python 3 to PATH".
-3. If you do not have java, or aren't sure if you do, download a copy of Java from [this link](https://learn.microsoft.com/en-us/java/openjdk/download#openjdk-17), selecting the "Windows x64 msi" option from the list. Run the installer and leave the settings set to the defaults.
+3. If you do not have java, or aren't sure if you do, download a copy of Java from one of the following places:
+    - [Eclipse Termurin JDK](https://adoptium.net/temurin/releases?version=17&os=windows&arch=x64), clicking the "MSI" option in the list. Run the installer and leave the settings set to the default.
+    - [Microsoft OpenJDK](https://learn.microsoft.com/en-us/java/openjdk/download#openjdk-17), selecting the "Windows x64 msi" option from the list. Run the installer and leave the settings set to the defaults.
+    - Note that **Java SE is unsupported**. It is its own thing with its own set of issues that make it unable to run this tool, plus it has a ton of legal baggage.
 
 
 ## 3. Download and run colornote-backup-decryptor.sh

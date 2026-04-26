@@ -16,10 +16,14 @@ fi
 
 cd "$CBD_DIR"
 
-JAVA_CMD="java -jar colornote-decrypt.jar"
+JAVA_ARGS=()
+JAVA_INVOCATION=("-jar" "colornote-decrypt.jar")
+JAVA_CMD() {
+	java "${JAVA_ARGS[@]}" "${JAVA_INVOCATION[@]}" "$@"
+}
 
 echo "Determining java version..."
-JAVA_ERR=$($JAVA_CMD < /dev/null 2>&1 >/dev/null)
+JAVA_ERR=$(JAVA_CMD < /dev/null 2>&1 >/dev/null)
 
 if echo "$JAVA_ERR" | grep -Fq "java: command not found"
 then
@@ -43,14 +47,14 @@ then
     # Guess classpath separator
     guess_classpath_sep(){
         echo "Testing Unix-style classpath..."
-        JAVA_CMD="java -cp lib/bcprov-jdk15on-154.jar:lib/bcpkix-jdk15on-154.jar:bin ColorNoteBackupDecrypt"
-        JAVA_ERR=$($JAVA_CMD < /dev/null 2>&1 >/dev/null)
+	JAVA_INVOCATION=("-cp" "lib/bcprov-jdk15on-154.jar:lib/bcpkix-jdk15on-154.jar:bin" "ColorNoteBackupDecrypt")
+        JAVA_ERR=$(JAVA_CMD < /dev/null 2>&1 >/dev/null)
         echo "$JAVA_ERR" | grep -Fq "java.lang.ClassNotFoundException"
         [[ $? -ne 0 ]] && return 0;
         
         echo "Testing Windows-style classpath..."
-        JAVA_CMD="java -cp lib/bcprov-jdk15on-154.jar;lib/bcpkix-jdk15on-154.jar;bin ColorNoteBackupDecrypt"
-        JAVA_ERR=$($JAVA_CMD < /dev/null 2>&1 >/dev/null)
+	JAVA_INVOCATION=("-cp" "lib/bcprov-jdk15on-154.jar;lib/bcpkix-jdk15on-154.jar;bin" "ColorNoteBackupDecrypt")
+        JAVA_ERR=$(JAVA_CMD < /dev/null 2>&1 >/dev/null)
         echo "$JAVA_ERR" | grep -Fq "java.lang.ClassNotFoundException"
         [[ $? -ne 0 ]] && return 0;
         
@@ -61,6 +65,16 @@ then
     }
     guess_classpath_sep || exit 1;
     echo "Determined classpath separator successfully."
+fi
+
+if echo "$JAVA_ERR" | grep -Fq "java.util.jar.JarException: bcprov-jdk15on-154.jar is not signed by a trusted signer."
+then
+	# No known easy bypass.
+	echo "Java SE is not supported due to certificate verification issues. (JCE does not accept expired certs and does not have an easy bypass)"
+	echo ""
+	echo "Please install Termurin instead (https://adoptium.net/temurin/releases)"
+	read -p "Press enter to exit. "
+	exit 1
 fi
 
 echo "Finding python executable..."
@@ -105,13 +119,13 @@ cd "$CBD_DIR"
 
 decrypt_backup_v1(){
     echo "Attempting V1 decryption..."
-    $JAVA_CMD "$PASSWORD" < "$BACKUP_FILE" > "$TEMP_PATH" || { echo "Failed."; return 1; }
+    JAVA_CMD "$PASSWORD" < "$BACKUP_FILE" > "$TEMP_PATH" || { echo "Failed."; return 1; }
     echo "Success."
     return 0;
 }
 decrypt_backup_v2(){
     echo "Attempting V2 decryption..."
-    $JAVA_CMD "$PASSWORD" 28 < "$BACKUP_FILE" > "$TEMP_PATH" || { echo "Failed."; return 1; }
+    JAVA_CMD "$PASSWORD" 28 < "$BACKUP_FILE" > "$TEMP_PATH" || { echo "Failed."; return 1; }
     echo "Success."
     return 0;
 }
